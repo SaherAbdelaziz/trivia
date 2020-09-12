@@ -6,6 +6,8 @@ import random
 
 from models import setup_db, Question, Category
 
+nOfQuestions = 10
+
 
 def create_app(test_config=None):
     # create and configure the app
@@ -13,11 +15,97 @@ def create_app(test_config=None):
     setup_db(app)
 
     '''
-  @TODO: 
-  Create an endpoint to handle GET requests for questions, 
-  including pagination (every 10 questions). 
-  This endpoint should return a list of questions, 
-  number of total questions, current category, categories. 
+    @TODO: Set up CORS. Allow '*' for origins. Delete the sample route after completing the TODOs
+    done
+    '''
+    CORS(app, resources={'/': {'origins': '*'}})
+
+    '''
+    @TODO: Use the after_request decorator to set Access-Control-Allow
+    '''
+    @app.after_request
+    def after_request(response):
+        """ Set Access Control """
+
+        response.headers.add(
+            'Access-Control-Allow-Headers',
+            'Content-Type, Authorization, true')
+        response.headers.add(
+            'Access-Control-Allow-Methods',
+            'GET, POST, PATCH, DELETE, OPTIONS')
+
+        return response
+
+    '''
+    @TODO: 
+    Create an endpoint to handle GET requests 
+    for all available categories.
+    done
+    '''
+    @app.route('/categories', methods=['GET'])
+    def get_categories():
+        """
+        This endpoint returns all categories or status code 500 if there is a server error
+        """
+
+        try:
+            Allcategories = Category.query.all()
+
+            categories = {}
+            for category in Allcategories:
+                categories[category.id] = category.type
+
+            # return successful response
+            return jsonify({
+                'success': True,
+                'categories': categories
+            }), 200
+        except Exception:
+            abort(500)
+
+    '''
+    @TODO: 
+    Create an endpoint to handle GET requests for questions, 
+    including pagination (every 10 questions). 
+    This endpoint should return a list of questions, 
+    number of total questions, current category, categories. 
+    done
+    '''
+    @app.route('/questions', methods=['GET'])
+    def get_questions():
+        """
+        an endpoint to handle GET requests for questions, 
+        including pagination (every 10 questions).  and returns a 404
+        when the page is out of bound
+        nOfQuestions is a global variable
+        """
+
+        questions = Question.query.order_by(Question.id).all()
+        total_questions = len(questions)
+        Allcategories = Category.query.order_by(Category.id).all()
+        page = request.args.get('page', 1, type=int)
+        start = (page - 1) * nOfQuestions
+        end = start + nOfQuestions
+
+        questions = [question.format() for question in questions]
+        current_questions = questions[start:end]
+
+        # return 404 if there are no questions for the page number
+        if (len(current_questions) == 0):
+            abort(404)
+
+        categories = {}
+        for category in Allcategories:
+            categories[category.id] = category.type
+
+        # return values if there are no errors
+        return jsonify({
+            'success': aTrue,
+            'total_questions': total_questions,
+            'categories': categories,
+            'questions': current_questions
+        }), 200
+    '''
 
   TEST: At this point, when you start the application
   you should see questions and categories generated,

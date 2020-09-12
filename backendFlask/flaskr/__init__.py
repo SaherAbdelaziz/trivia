@@ -171,7 +171,6 @@ def create_app(test_config=None):
                 difficulty=difficulty,
                 category=category)
 
-            # save question
             question.insert()
 
             # return success message

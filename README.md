@@ -3,9 +3,7 @@
 ## Full Stack Trivia
 
 1. [`./frontend/`](./frontend/README.md)
-2. [`./backend/`](./backend/README.md)
-
-We recommend following the instructions in those files in order. This order will look familiar from our prior work in the course.
+2. [`./backend/`](./backendFlask/README.md)
 
 ## About the Stack
 

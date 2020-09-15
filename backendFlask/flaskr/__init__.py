@@ -43,16 +43,16 @@ def create_app(test_config=None):
     done
     '''
     @app.route('/categories', methods=['GET'])
-    def GetCategories():
+    def get_categories():
         """
         This endpoint returns all categories or status code 500 if there is a server error
         """
 
         try:
-            Allcategories = Category.query.all()
+            all_categories = Category.query.all()
 
             categories = {}
-            for category in Allcategories:
+            for category in all_categories:
                 categories[category.id] = category.type
 
             # return successful response
@@ -72,7 +72,7 @@ def create_app(test_config=None):
     done
     '''
     @app.route('/questions', methods=['GET'])
-    def GetQuestions():
+    def get_questions():
         """
         an endpoint to handle GET requests for questions, 
         including pagination (every 10 questions).  and returns a 404
@@ -82,7 +82,7 @@ def create_app(test_config=None):
 
         questions = Question.query.order_by(Question.id).all()
         total_questions = len(questions)
-        Allcategories = Category.query.order_by(Category.id).all()
+        all_categories = Category.query.order_by(Category.id).all()
         page = request.args.get('page', 1, type=int)
         start = (page - 1) * nOfQuestions
         end = start + nOfQuestions
@@ -95,7 +95,7 @@ def create_app(test_config=None):
             abort(404)
 
         categories = {}
-        for category in Allcategories:
+        for category in all_categories:
             categories[category.id] = category.type
 
         # return values if there are no errors
@@ -122,7 +122,7 @@ def create_app(test_config=None):
     This removal will persist in the database and when you refresh the page. 
     '''
     @app.route('/questions/<int:id>', methods=['DELETE'])
-    def DeleteQuestion(id):
+    def delete_question(id):
         '''
         An endpoint to DELETE question using an ID.
         if any erorr expet send 422
@@ -148,7 +148,7 @@ def create_app(test_config=None):
     '''
 
     @app.route('/questions/new', methods=['POST'])
-    def NewQuestion():
+    def new_question():
         '''
         An endpoint to POST a new question,retrurn 422 if data is not completed 
         '''
@@ -197,7 +197,7 @@ def create_app(test_config=None):
     done
     '''
     @app.route('/questions/search', methods=['POST'])
-    def SearchQuestions():
+    def search_questions():
         '''
         Create a POST endpoint to get questions based on a search term 
         '''
@@ -247,7 +247,7 @@ def create_app(test_config=None):
 
     '''
     @app.route('/categories/<int:id>/questions', methods=['GET'])
-    def QuestionsperCategory(id):
+    def questions_per_category(id):
         '''
         a GET endpoint to get questions based on category. 
         return 404 if not found
@@ -296,36 +296,36 @@ def create_app(test_config=None):
         a POST endpoint to get questions to play the quiz.
         '''
 
-        previousQuestions = request.get_json().get('previous_questions')
-        quizCategory = request.get_json().get('quiz_category')
+        previous_questions = request.get_json().get('previous_questions')
+        quiz_category = request.get_json().get('quiz_category')
 
         # return 404 if quizCategory or previousQuestions is empty
-        if ((quizCategory is None) or (previousQuestions is None)):
+        if ((quiz_category is None) or (previous_questions is None)):
             abort(400)
 
         # if default questions of category or all questions
-        if (quizCategory['id'] == 0):
+        if (quiz_category['id'] == 0):
             questions = Question.query.all()
         else:
             questions = Question.query.filter_by(
-                category=quizCategory['id']).all()
+                category=quiz_category['id']).all()
 
         # get random question for the next question
-        nextQuestion = questions[random.randint(0, len(questions)-1)]
+        next_question = questions[random.randint(0, len(questions)-1)]
 
         # defines boolean used to check that the question
         # is not a previous question
         found = True
 
         while found:
-            if nextQuestion.id in previousQuestions:
-                nextQuestion = questions[random.randint(0, len(questions)-1)]
+            if next_question.id in previous_questions:
+                next_question = questions[random.randint(0, len(questions)-1)]
             else:
                 found = False
 
         return jsonify({
             'success': True,
-            'question': nextQuestion.format(),
+            'question': next_question.format(),
         }), 200
 
     '''

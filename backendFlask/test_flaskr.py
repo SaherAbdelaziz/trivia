@@ -41,7 +41,7 @@ class TriviaTestCase(unittest.TestCase):
     test Categories get all ,  Get Questions Per Category , invalid id 
     '''
 
-    def testGetAllCategories(self):
+    def test_get_all_categories(self):
         """Test for get_all_categories
 
         Tests for the status code for success is true, and the length of
@@ -58,7 +58,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['categories'])
         self.assertEqual(len(data['categories']), 6)
 
-    def testGetQuestionsPerCategory(self):
+    def test_get_guestions_per_category(self):
         """Test for getting questions Per category"""
 
         # make a request for the History category with id of 4
@@ -71,7 +71,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertNotEqual(len(data['questions']), 0)
         self.assertEqual(data['categories'], 'History')
 
-    def testInvalidCategoryId(self):
+    def test_invalid_category_id(self):
         """Test for invalid category id"""
 
         # request with invalid category id 100
@@ -86,7 +86,7 @@ class TriviaTestCase(unittest.TestCase):
     test Questions get all q and paginaion 10 , delete Question  , unsuccessful deletion of question id not exitst
     '''
 
-    def testGetPaginatedQuestions(self):
+    def test_get_paginated_questions(self):
         """
         Test for get all questions and they ar 10 q
 
@@ -99,7 +99,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertEqual(len(data['questions']), 10)
 
-    def testSuccessfulQuestionDelete(self):
+    def test_success_ful_guestion_delete(self):
         """
         Test for deleting a question.
 
@@ -123,7 +123,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertEqual(data['message'], "Question successfully deleted")
 
-    def testDeleteQuestionIdNotExist(self):
+    def test_delete_question_id_not_exist(self):
         """
         unsuccessful deletion of question
         """
@@ -141,7 +141,7 @@ class TriviaTestCase(unittest.TestCase):
     test Questions create new q , create new q with no data  ,search ,search not found ,  search no data
     '''
 
-    def testCreateQuestion(self):
+    def test_create_question(self):
         """
         Test for creating question
         """
@@ -162,7 +162,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertEqual(data['message'], 'Question successfully created!')
 
-    def testCreateQuestionWithNoData(self):
+    def test_create_cuestion_with_no_data(self):
         """
         Test for ensuring data with empty fields are not processed
         """
@@ -181,7 +181,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'Unprocessable entity')
 
-    def testSearchQuestions(self):
+    def test_search_questions(self):
         """
         Test for searching for a question.
         """
@@ -214,7 +214,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'Resource not found')
 
-    def testSearchNoData(self):
+    def test_search_no_data(self):
         """
         Test for empty search term
         """
@@ -235,7 +235,7 @@ class TriviaTestCase(unittest.TestCase):
     test page 
     '''
 
-    def testErrorForOutOfBoundPage(self):
+    def test_error_for_out_of_boundPage(self):
         """
         Test for out of bound page
         returns a 404 error
@@ -253,7 +253,7 @@ class TriviaTestCase(unittest.TestCase):
     test play game ok , no data 
     '''
 
-    def testPlay(self):
+    def test_play(self):
         """
         Test playing quiz questions
         """
@@ -280,7 +280,7 @@ class TriviaTestCase(unittest.TestCase):
         # Ensures returned question is in the correct category
         self.assertEqual(data['question']['category'], 5)
 
-    def testNoDataPlay(self):
+    def test_no_data_play(self):
         """
         Test for the case where no data is sent
         """

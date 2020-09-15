@@ -1,7 +1,7 @@
 .vscode
 __pycache__
 venv
-env
+env 
 
 # OS generated files #
 ######################
@@ -12,6 +12,11 @@ env
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+## Node_modules
+/node_modules
+
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -151,6 +156,3 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
-
-## Node_modules
-node_modules

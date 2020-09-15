@@ -2,6 +2,12 @@
 
 ## Full Stack Trivia
 
+### About the project
+
+This project make a game/quiz as a player can play and answer some questions and get points with right answers
+Can choise the category of questions
+can add new questions
+
 1. [`./frontend/`](./frontend/README.md)
 2. [`./backend/`](./backendFlask/README.md)
 

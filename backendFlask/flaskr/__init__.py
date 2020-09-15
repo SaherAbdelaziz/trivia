@@ -228,7 +228,6 @@ def create_app(test_config=None):
             return jsonify({
                 'success': True,
                 'questions': current_questions,
-                'total_questions': len(Question.query.all())
             }), 200
 
         except Exception:
@@ -259,7 +258,6 @@ def create_app(test_config=None):
             questions = Question.query.filter_by(category=id).all()
 
             total_questions = len(questions)
-            Allcategories = Category.query.order_by(Category.id).all()
             page = request.args.get('page', 1, type=int)
             start = (page - 1) * nOfQuestions
             end = start + nOfQuestions
